@@ -5,7 +5,7 @@
 package com.yclip.gist.framework.de;
 import com.yclip.gist.framework.obj.SentenceTemplate;
 import com.yclip.gist.framework.repo.DaoFactory;
-import com.yclip.gist.framework.repo.DttRepoDAO;
+import com.yclip.gist.framework.repo.DttRepoDAOImplStud;
 /**
  *
  * @author m
@@ -18,7 +18,7 @@ public class DTTExtractor {
         String tempSentence = "";
         
         // get DttRepoDAO
-        DttRepoDAO dttRepoDao = (DttRepoDAO) DaoFactory.getInstance().getDAO(DaoFactory.DTT_REPO_DAO_CLASS);
+        DttRepoDAOImplStud dttRepoDao = (DttRepoDAOImplStud) DaoFactory.getInstance().getDAO(DaoFactory.DTT_REPO_DAO_CLASS);
         
         
         for (String word : sT.getWordInput())  
