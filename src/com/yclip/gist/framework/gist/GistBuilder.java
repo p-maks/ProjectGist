@@ -12,7 +12,7 @@ import com.yclip.gist.framework.obj.ImageSentence;
  */
 public class GistBuilder {
     //source images for the sentence
-    public ImageSentence construct(SentenceTemplate sT){
+    public ImageSentence construct(SentenceTemplate sT) throws Exception{
         ImageSentence iS=new ImageSentence();
         
         ImageFinder iSource=new ImageFinder();
@@ -24,6 +24,7 @@ public class GistBuilder {
         
         return iS;
     }
+    
     private void create(){
     }
 }

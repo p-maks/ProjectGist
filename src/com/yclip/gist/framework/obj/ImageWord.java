@@ -17,4 +17,41 @@ public class ImageWord {
     private MetaInfo metaInfo;
     private ImageCorelation corelation;
     
+    public ImageWord(String url){
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public ImageTextSource getTextSrc() {
+        return textSrc;
+    }
+
+    public void setTextSrc(ImageTextSource textSrc) {
+        this.textSrc = textSrc;
+    }
+
+    public MetaInfo getMetaInfo() {
+        return metaInfo;
+    }
+
+    public void setMetaInfo(MetaInfo metaInfo) {
+        this.metaInfo = metaInfo;
+    }
+
+    public ImageCorelation getCorelation() {
+        return corelation;
+    }
+
+    public void setCorelation(ImageCorelation corelation) {
+        this.corelation = corelation;
+    }
+    
+    
 }

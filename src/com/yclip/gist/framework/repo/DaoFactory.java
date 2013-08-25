@@ -15,6 +15,7 @@ public class DaoFactory {
     // make it Singleton
     private static DaoFactory daoFactory = null;
     public static final String DTT_REPO_DAO_CLASS = "com.yclip.gist.framework.repo.DttRepoDAOImplStud";
+    public static final String IW_REPO_DAO_CLASS = "com.yclip.gist.framework.repo.IwRepoDAOImplStud";
 
     /**
      * Static block that creates a new DAO factory the first time a DaoFactory

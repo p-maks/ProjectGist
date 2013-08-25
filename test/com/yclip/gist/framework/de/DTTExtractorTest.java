@@ -44,7 +44,7 @@ public class DTTExtractorTest {
      */
     @Test
     public void testTagDTT() throws Exception {
-        String test_sentence = "Man Utd team is mobbed by fans as they leave the airport";
+        String test_sentence = "\"Man Utd\" team is mobbed by fans as they leave the airport";
         System.out.println("tagDTT");
         SentenceTemplate sT = new SentenceTemplate(test_sentence);
         DTTExtractor instance = new DTTExtractor();
