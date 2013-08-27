@@ -4,6 +4,7 @@
  */
 package com.yclip.gist.framework.obj;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -13,6 +14,10 @@ import java.util.Collection;
 public class ImageSentence {
     
      private Collection<ImageWord> imageWords;
+     
+     public ImageSentence(){
+         imageWords = new ArrayList<>();
+     }
 
     /**
      * @return the imageWords
