@@ -4,6 +4,8 @@
  */
 package com.yclip.gist.framework.obj;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -15,4 +17,18 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class ImageTextSource {
+    
+    public Set wordSet = new HashSet<String>();
+
+    public Set getWordSet() {
+        return wordSet;
+    }
+
+    public void setWordSet(Set wordSet) {
+        this.wordSet = wordSet;
+    }
+    
+    public ImageTextSource(Set wordSet){
+        this.wordSet = wordSet;
+    }
 }

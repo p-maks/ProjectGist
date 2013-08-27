@@ -4,6 +4,7 @@
  */
 package com.yclip.gist.framework.obj;
 
+import java.util.HashSet;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -20,6 +21,13 @@ public class ImageWord {
     public ImageWord(String url){
         this.url = url;
     }
+    
+    public ImageWord(String url, ImageTextSource textSrc){
+        this.url = url;
+        this.textSrc = textSrc;
+    }
+    
+    
 
     public String getUrl() {
         return url;

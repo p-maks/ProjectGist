@@ -4,6 +4,7 @@
  */
 package com.yclip.gist.framework.repo;
 
+import com.yclip.gist.framework.obj.ImageTextSource;
 import com.yclip.gist.framework.obj.ImageWord;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,20 +15,40 @@ import java.util.Set;
  */
 public class IwRepoDAOImplStud implements IwRepoDAO{
     
-    private static Set UISSet = new HashSet<String>() {
+    private static Set UISNameSet = new HashSet<String>() {
         {
             add("airport");
             add("leave");
         }
     };
     
-    private static Set LISSet = new HashSet<String>() {
+    private static HashSet<ImageWord> UISSet = new HashSet<ImageWord>() {
+        {
+            Set tempSet = new HashSet<>();
+            tempSet.add("airport");
+            add(new ImageWord("airport.jpeg", new ImageTextSource(tempSet)));
+            tempSet = new HashSet<>();
+            tempSet.add("leave");
+            add(new ImageWord("leave.jpeg", new ImageTextSource(tempSet)));
+        }
+    };
+    
+    private static Set LISNameSet = new HashSet<String>() {
         {
             add("mobbed");
         }
     };
     
-    private static Set GISSet = new HashSet<String>() {
+    private static HashSet<ImageWord> LISSet = new HashSet<ImageWord>() {
+        {
+            Set tempSet = new HashSet<>();
+            tempSet.add("mobbed");
+            add(new ImageWord("mobbed.jpeg", new ImageTextSource(tempSet)));
+        }
+    };
+    
+    
+    private static Set GISNameSet = new HashSet<String>() {
         {
             add("Man Utd");
             add("team");
@@ -35,6 +56,26 @@ public class IwRepoDAOImplStud implements IwRepoDAO{
             add("they");
         }
     };
+    
+    private static HashSet<ImageWord> GISSet = new HashSet<ImageWord>() {
+        {
+            HashSet tempSet = new HashSet<>();
+            tempSet.add("Man Utd");
+            ImageTextSource tempITS = new ImageTextSource(tempSet);
+            add(new ImageWord("manutdlogo.jpeg", tempITS));
+            tempSet = new HashSet<>();
+            tempSet.add("team");
+            tempITS = new ImageTextSource(tempSet);
+            add(new ImageWord("team.jpeg", tempITS));
+            tempSet = new HashSet<>();
+            tempSet.add("fans");
+            add(new ImageWord("fans.jpeg", new ImageTextSource(tempSet)));
+            tempSet = new HashSet<>();
+            tempSet.add("they");
+            add(new ImageWord("they.jpeg", new ImageTextSource(tempSet)));
+        }
+    };
+    
     
     
     /**
@@ -46,7 +87,7 @@ public class IwRepoDAOImplStud implements IwRepoDAO{
      *
      */
     public boolean checkUIS(String word){
-        return UISSet.contains(word);
+        return UISNameSet.contains(word);
     }
     
     
@@ -60,7 +101,7 @@ public class IwRepoDAOImplStud implements IwRepoDAO{
      *
      */
     public boolean checkGIS(String word){
-        return GISSet.contains(word);
+        return GISNameSet.contains(word);
     }
     
     /**
@@ -72,7 +113,7 @@ public class IwRepoDAOImplStud implements IwRepoDAO{
      *
      */
     public boolean checkLIS(String word){
-        return LISSet.contains(word);
+        return LISNameSet.contains(word);
     }
     
     /**
@@ -80,11 +121,18 @@ public class IwRepoDAOImplStud implements IwRepoDAO{
      *
      * @param word the string to be checked
      *
-     * @return a <code>true</code> if its is <code>false</code> otherwise
+     * @return the ImageWord
      *
      */
     public ImageWord getUIS(String word){
-        return null;
+        ImageWord returnIW = null;
+        for(ImageWord iW: UISSet){
+           if(iW.getTextSrc().getWordSet().contains(word)){
+               returnIW= iW;
+           }
+        }
+        
+        return returnIW;
     }
     
     /**
@@ -92,11 +140,18 @@ public class IwRepoDAOImplStud implements IwRepoDAO{
      *
      * @param word the string to be checked
      *
-     * @return a <code>true</code> if its is <code>false</code> otherwise
+     * @return the ImageWord
      *
      */
     public ImageWord getGIS(String word){
-        return null;
+        ImageWord returnIW = null;
+        for(ImageWord iW: GISSet){
+           if(iW.getTextSrc().getWordSet().contains(word)){
+               returnIW = iW;
+           }
+        }
+        
+        return returnIW;
     }
     
     /**
@@ -104,15 +159,22 @@ public class IwRepoDAOImplStud implements IwRepoDAO{
      *
      * @param word the string to be checked
      *
-     * @return a <code>true</code> if its is <code>false</code> otherwise
+     * @return the ImageWord
      *
      */
     public ImageWord getLIS(String word){
-        return null;
+        ImageWord returnIW = null;
+        for(ImageWord iW: LISSet){
+           if(iW.getTextSrc().getWordSet().contains(word)){
+               returnIW= iW;
+           }
+        }
+        
+        return returnIW;
     }
 
     public ImageWord getImageWord(String word) {
-        ImageWord iW = new ImageWord("test");
+        ImageWord iW;
         
         if(checkUIS(word)){
             iW = getUIS(word);

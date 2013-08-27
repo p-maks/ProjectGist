@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  */
 public class DeController {
 
-    public ImageSentence getImageSentence(String input) {
+    public ImageSentence getImageSentence(String input) throws Exception {
         
         SentenceTemplate sT = new SentenceTemplate(input);
         

@@ -4,9 +4,9 @@
  */
 package com.yclip.gist.framework.obj;
 
+import com.yclip.gist.framework.util.Util;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 /**
  *
@@ -44,22 +44,9 @@ public class SentenceTemplate {
 
     public SentenceTemplate(String input) {
         this.input = input;
+        Util util = new Util();
         //Split the input into words and remove punctuation
-        Pattern regex = Pattern.compile("[^\\s\"']+|\"([^\"]*)\"|'([^']*)'");
-        Matcher regexMatcher = regex.matcher(input);
-        wordInput = new ArrayList<>();
-        while (regexMatcher.find()) {
-            if (regexMatcher.group(1) != null) {
-                // Add double-quoted string without the quotes
-                wordInput.add(regexMatcher.group(1));
-            } else if (regexMatcher.group(2) != null) {
-                // Add single-quoted string without the quotes
-                wordInput.add(regexMatcher.group(2));
-            } else {
-                // Add unquoted word
-                wordInput.add(regexMatcher.group());
-            }
-        }
+        wordInput = util.splitSentence(input);
 
 
         convertToInputXML(input);
