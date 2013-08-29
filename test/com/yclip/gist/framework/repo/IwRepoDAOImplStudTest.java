@@ -4,10 +4,13 @@
  */
 package com.yclip.gist.framework.repo;
 
+import com.yclip.gist.framework.exceptions.NoWordException;
 import com.yclip.gist.framework.obj.ImageTextSource;
 import com.yclip.gist.framework.obj.ImageWord;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,22 +23,22 @@ import static org.junit.Assert.*;
  * @author Chaka
  */
 public class IwRepoDAOImplStudTest {
-    
+
     public IwRepoDAOImplStudTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -136,23 +139,46 @@ public class IwRepoDAOImplStudTest {
         String word = "";  //Test word not in repo
         IwRepoDAOImplStud instance = new IwRepoDAOImplStud();
         ImageWord expResult = null;
-        ImageWord result = instance.getImageWord(word);
-        assertNull(result);
-        
+        ImageWord result = new ImageWord();
+        try {
+            result = instance.getImageWord(word);
+        } catch (NoWordException ex) {
+            Logger.getLogger(IwRepoDAOImplStudTest.class.getName()).log(Level.SEVERE, null, ex);
+            assertTrue("Error was thrown correctly", ex instanceof NoWordException);
+        }
+
         word = "leave";
         Set tempSet = new HashSet<String>();
         tempSet.add("leave");
         expResult = new ImageWord("leave.jpeg", new ImageTextSource(tempSet));
-        result = instance.getImageWord(word);
+        try {
+            result = instance.getImageWord(word);
+        } catch (NoWordException ex) {
+            Logger.getLogger(IwRepoDAOImplStudTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail( "Error thrown when looking for leave" );
+        }
         assertEquals(expResult.getUrl(), result.getUrl());
-        
+
         word = "team";
         Set tempSet1 = new HashSet<String>();
         tempSet1.add("team");
         expResult = new ImageWord("team.jpeg", new ImageTextSource(tempSet1));
-        result = instance.getImageWord(word);
+        try {
+            result = instance.getImageWord(word);
+        } catch (NoWordException ex) {
+            Logger.getLogger(IwRepoDAOImplStudTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail( "Error thrown when looking for team" );
+        }
         assertEquals(expResult.getUrl(), result.getUrl());
-        
+
+
+    }
+
+    @Test(expected = NoWordException.class)
+    public void testNoWordException() throws NoWordException {
+       String word = "test123noteverygoingtobeaword"; //Test a word which should never be in a repo
+       new IwRepoDAOImplStud().getImageWord(word);
         
     }
+    
 }

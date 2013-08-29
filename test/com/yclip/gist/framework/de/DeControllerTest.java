@@ -76,7 +76,7 @@ public static final String TEST_INPUT = "\"Man Utd\" team is mobbed by fans as t
     /**
      * Test of getImageSentence method, of class DeController.
      */
-    @Test
+     @Test
     public void testGetImageSentence() throws Exception {
         System.out.println("getImageSentence");
         String input = "\"Man Utd\" team is mobbed by fans as they leave the airport";

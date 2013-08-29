@@ -7,6 +7,7 @@ package com.yclip.gist.framework.util;
 import com.yclip.gist.framework.obj.ImageSentence;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.bind.JAXBContext;
@@ -20,7 +21,7 @@ import javax.xml.bind.PropertyException;
  */
 public class Util {
 
-    public ArrayList<String> splitSentence(String sentence) {
+    public List<String> splitSentence(String sentence) {
 
         Pattern regex = Pattern.compile("[^\\s\"']+|\"([^\"]*)\"|'([^']*)'");
         Matcher regexMatcher = regex.matcher(sentence);

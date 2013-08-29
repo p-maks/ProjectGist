@@ -57,7 +57,7 @@ public class UtilTest {
         expResult.add("leave");
         expResult.add("the");
         expResult.add("airport");
-        ArrayList result = instance.splitSentence(sentence);
+        ArrayList result = (ArrayList) instance.splitSentence(sentence);
         assertEquals(expResult, result);
     }
 }

@@ -5,6 +5,10 @@
 package com.yclip.gist.framework.de;
 
 import com.yclip.gist.framework.obj.SentenceTemplate;
+import com.yclip.gist.framework.obj.SentenceWord;
+import com.yclip.gist.framework.util.Util;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -46,7 +50,14 @@ public class DTTExtractorTest {
     public void testTagDTT() throws Exception {
         String test_sentence = "\"Man Utd\" team is mobbed by fans as they leave the airport";
         System.out.println("tagDTT");
-        SentenceTemplate sT = new SentenceTemplate();
+        List<String> parsedInput = new Util().splitSentence(test_sentence);
+        //Create list of sentence words from the split sentence
+        List<SentenceWord> sentenceWords = new ArrayList();
+        for (String object : parsedInput) {
+            sentenceWords.add(new SentenceWord(object));
+        }
+        
+        SentenceTemplate sT = new SentenceTemplate(test_sentence,sentenceWords);
         DTTExtractor instance = new DTTExtractor();
         SentenceTemplate result = instance.tagDTT(sT);
         System.out.println(result.getInput());
