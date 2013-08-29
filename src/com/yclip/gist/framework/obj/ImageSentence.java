@@ -6,18 +6,40 @@ package com.yclip.gist.framework.obj;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Collection of Image Words
+ *
  * @author m
  */
+//This statement means that class "ImageSentence.java" is the root-element of our example
+@XmlRootElement(name = "ImageSentence")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ImageSentence {
+
     
-     private Collection<ImageWord> imageWords;
-     
-     public ImageSentence(){
-         imageWords = new ArrayList<>();
-     }
+    // XmlElement sets the name of the entities
+    @XmlElement(name = "ImageWord")
+    private Collection<ImageWord> imageWords;
+    private SentenceTemplate sentenceTemplate;
+
+    public SentenceTemplate getSentenceTemplate() {
+        return sentenceTemplate;
+    }
+
+    public void setSentenceTemplate(SentenceTemplate sentenceTemplate) {
+        this.sentenceTemplate = sentenceTemplate;
+    }
+    
+    
+    public ImageSentence() {
+        imageWords = new ArrayList<>();
+    }
 
     /**
      * @return the imageWords
@@ -36,6 +58,4 @@ public class ImageSentence {
     public void addImageWord(ImageWord iW) {
         imageWords.add(iW); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
 }

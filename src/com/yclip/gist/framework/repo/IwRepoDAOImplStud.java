@@ -8,12 +8,15 @@ import com.yclip.gist.framework.obj.ImageTextSource;
 import com.yclip.gist.framework.obj.ImageWord;
 import java.util.HashSet;
 import java.util.Set;
+import com.yclip.gist.framework.exceptions.NoWordException;
 
 /**
  *
  * @author Chaka
  */
 public class IwRepoDAOImplStud implements IwRepoDAO{
+    
+    
     
     private static Set UISNameSet = new HashSet<String>() {
         {
@@ -22,7 +25,7 @@ public class IwRepoDAOImplStud implements IwRepoDAO{
         }
     };
     
-    private static HashSet<ImageWord> UISSet = new HashSet<ImageWord>() {
+    private static Set<ImageWord> UISSet = new HashSet<ImageWord>() {
         {
             Set tempSet = new HashSet<>();
             tempSet.add("airport");
@@ -173,15 +176,19 @@ public class IwRepoDAOImplStud implements IwRepoDAO{
         return returnIW;
     }
 
-    public ImageWord getImageWord(String word) {
+    public ImageWord getImageWord(String word) throws NoWordException {
         ImageWord iW;
         
         if(checkUIS(word)){
             iW = getUIS(word);
         }else if(checkLIS(word)){
             iW = getLIS(word);            
-        }else{
+        }else if(checkGIS(word)){
             iW = getGIS(word);
+        }else{
+            
+            throw new NoWordException();
+            
         }
         
         return iW;

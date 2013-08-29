@@ -5,18 +5,27 @@
 package com.yclip.gist.framework.obj;
 
 import java.util.HashSet;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author P Maksymchuk
  */
-@XmlRootElement
+@XmlRootElement(name = "ImageWord")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ImageWord {
+    @XmlElement(name = "ImageSource")
     private String url;
+    @XmlElement(name = "ImageTextSource")
     private ImageTextSource textSrc;
     private MetaInfo metaInfo;
     private ImageCorelation corelation;
+    
+    public ImageWord(){
+    }
     
     public ImageWord(String url){
         this.url = url;

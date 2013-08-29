@@ -6,6 +6,10 @@ package com.yclip.gist.framework.obj;
 
 import java.util.HashSet;
 import java.util.Set;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -15,10 +19,18 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author P Maksymchuk
  */
-@XmlRootElement
+@XmlRootElement(name = "ImageTextSrc")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ImageTextSource {
-    
+    // XmLElementWrapper generates a wrapper element around XML representation
+  @XmlElementWrapper(name = "WordSet")
+  // XmlElement sets the name of the entities
+  @XmlElement(name = "Word")
     public Set wordSet = new HashSet<String>();
+    
+    public ImageTextSource(){
+        
+    }
 
     public Set getWordSet() {
         return wordSet;

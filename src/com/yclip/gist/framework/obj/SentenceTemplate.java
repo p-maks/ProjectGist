@@ -6,17 +6,36 @@ package com.yclip.gist.framework.obj;
 
 import com.yclip.gist.framework.util.Util;
 import java.util.ArrayList;
+import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
  *
  * @author m
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class SentenceTemplate {
 
+    public SentenceTemplate() {
+    }
+
     String input;
-    ArrayList<String> wordInput;
-    String inputXML;
+    List<SentenceWord> sentenceWords;
+    
+
+    public List<SentenceWord> getSentenceWords() {
+        return sentenceWords;
+    }
+
+    public void setSentenceWords(List<SentenceWord> sentenceWords) {
+        this.sentenceWords = sentenceWords;
+    }
+
+    
 
     public String getInput() {
         return input;
@@ -26,36 +45,21 @@ public class SentenceTemplate {
         this.input = input;
     }
 
-    public ArrayList<String> getWordInput() {
-        return wordInput;
-    }
+    
 
-    public void setWordInput(ArrayList<String> wordInput) {
-        this.wordInput = wordInput;
-    }
+   
 
-    public String getInputXML() {
-        return inputXML;
-    }
-
-    public void setInputXML(String inputXML) {
-        this.inputXML = inputXML;
-    }
-
-    public SentenceTemplate(String input) {
+    public SentenceTemplate(String input, List<SentenceWord> wordInput) {
         this.input = input;
-        Util util = new Util();
         //Split the input into words and remove punctuation
-        wordInput = util.splitSentence(input);
+        this.sentenceWords = wordInput;
 
 
-        convertToInputXML(input);
     }
+    
+    
 
-    private String convertToInputXML(String input) {
-
-        return inputXML;
-    }
+    
 }
 
 /**

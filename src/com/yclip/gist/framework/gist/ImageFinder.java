@@ -4,9 +4,11 @@
  */
 package com.yclip.gist.framework.gist;
 
+import com.yclip.gist.framework.exceptions.NoWordException;
 import com.yclip.gist.framework.obj.ImageSentence;
 import com.yclip.gist.framework.obj.ImageWord;
 import com.yclip.gist.framework.obj.SentenceTemplate;
+import com.yclip.gist.framework.obj.SentenceWord;
 import com.yclip.gist.framework.repo.DaoFactory;
 import com.yclip.gist.framework.repo.IwRepoDAOImplStud;
 
@@ -19,13 +21,16 @@ public class ImageFinder {
         ImageSentence iS=new ImageSentence();
         
         
-        
-        for (String word : sT.getWordInput()){
-            if(word.startsWith("<DTT>")&&word.endsWith("</DTT>")){
+        for (SentenceWord sW : sT.getSentenceWords()){
+            if(sW.isDTT()){
                 //Direct transer text, do something with it
             }else{
                 //find the image and add it to the sentance
-                iS.addImageWord(findImage(word));
+                try{    
+                iS.addImageWord(findImage(sW.getWord()));
+                }catch(NoWordException e){
+                    
+                }
             }
         }
                 
@@ -36,7 +41,7 @@ public class ImageFinder {
     
     public ImageWord findImage(String word)throws Exception{
         
-        ImageWord iW = new ImageWord("test");
+        ImageWord iW = new ImageWord();
         // get IwRepoDAO
         IwRepoDAOImplStud iwRepoDao = (IwRepoDAOImplStud) DaoFactory.getInstance().getDAO(DaoFactory.IW_REPO_DAO_CLASS);
         
