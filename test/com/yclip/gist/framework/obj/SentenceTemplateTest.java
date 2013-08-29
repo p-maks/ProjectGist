@@ -5,6 +5,7 @@
 package com.yclip.gist.framework.obj;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,6 +18,8 @@ import static org.junit.Assert.*;
  * @author Chaka
  */
 public class SentenceTemplateTest {
+    
+    public static final String TEST_INPUT = "\"Man Utd\" team is mobbed by fans as they leave the airport";
     
     public SentenceTemplateTest() {
     }
@@ -37,26 +40,16 @@ public class SentenceTemplateTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of getInput method, of class SentenceTemplate.
-     */
-    @Test
-    public void testSetAndGetInput() {
-        System.out.println("getInput");
-        SentenceTemplate instance = new SentenceTemplate("testing");
-        String expResult = "test";
-        instance.setInput(expResult);
-        String result = instance.getInput();
-        assertEquals(expResult, result);
-    }
+    
 
     /**
      * Test of getWordInput method, of class SentenceTemplate.
      */
     @Test
     public void testGetWordInput() {
+        
         System.out.println("getWordInput");
-        SentenceTemplate instance = new SentenceTemplate("\"Man Utd\" team is mobbed by fans as they leave the airport");
+        
         ArrayList expectedResult = new ArrayList<>();
         expectedResult.add("Man Utd");
         expectedResult.add("team");
@@ -69,7 +62,8 @@ public class SentenceTemplateTest {
         expectedResult.add("leave");
         expectedResult.add("the");
         expectedResult.add("airport");
-        ArrayList result = instance.getWordInput();
+        SentenceTemplate instance = new SentenceTemplate(TEST_INPUT, expectedResult);
+        List result = instance.getSentenceWords();
         assertEquals(expectedResult, result );
     }
 
@@ -79,7 +73,6 @@ public class SentenceTemplateTest {
     @Test
     public void testSetWordInput() {
         System.out.println("getWordInput");
-        SentenceTemplate instance = new SentenceTemplate("test");
         ArrayList expectedResult = new ArrayList<>();
         expectedResult.add("Man Utd");
         expectedResult.add("team");
@@ -92,9 +85,8 @@ public class SentenceTemplateTest {
         expectedResult.add("leave");
         expectedResult.add("the");
         expectedResult.add("airport");
-        instance.setWordInput(expectedResult);
-        ArrayList result = instance.getWordInput();
-        assertEquals(expectedResult, result );
+        SentenceTemplate instance = new SentenceTemplate(TEST_INPUT,expectedResult);
+        
     }
 
     /**
