@@ -61,6 +61,7 @@ public class DTTExtractorTest {
         DTTExtractor instance = new DTTExtractor();
         SentenceTemplate result = instance.tagDTT(sT);
         System.out.println(result.getInput());
+        System.out.println(result.getTaggedSentence());
         
         
     }

@@ -43,7 +43,7 @@ public class UtilTest {
     @Test
     public void testSplitSentence() {
         System.out.println("splitSentence");
-        String sentence = "\"Man Utd\" team is mobbed by fans as they leave the airport";
+        String sentence = "\"Man Utd\" team is mobbed by fans as \"they leave\" the airport";
         Util instance = new Util();
         ArrayList expResult = new ArrayList<>();
         expResult.add("Man Utd");
@@ -53,8 +53,8 @@ public class UtilTest {
         expResult.add("by");
         expResult.add("fans");
         expResult.add("as");
-        expResult.add("they");
-        expResult.add("leave");
+        expResult.add("they leave");
+        //expResult.add("leave");
         expResult.add("the");
         expResult.add("airport");
         ArrayList result = (ArrayList) instance.splitSentence(sentence);

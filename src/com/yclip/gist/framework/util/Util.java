@@ -21,6 +21,10 @@ import javax.xml.bind.PropertyException;
  */
 public class Util {
 
+    /*
+     * @param the sentence that needs to be split
+     * @return an array of sentence segments
+     */
     public List<String> splitSentence(String sentence) {
 
         Pattern regex = Pattern.compile("[^\\s\"']+|\"([^\"]*)\"|'([^']*)'");
@@ -42,8 +46,40 @@ public class Util {
 
     }
 
+    /*
+     * @param the sentence that needs to be split
+     * @return an array of sentence segments
+     */
+    public List<String> splitTaggedSentence(String sentence) {
+
+        Pattern regex = Pattern.compile("<ss>(.*)</ss>|<dtt>(.*)</dtt>");
+        Matcher regexMatcher = regex.matcher(sentence);
+        ArrayList<String> words = new ArrayList<>();
+        while (regexMatcher.find()) {
+            if (regexMatcher.group(1) != null) {
+                // ss tagg
+                words.add(regexMatcher.group(1));
+            } else if (regexMatcher.group(2) != null) {
+                // dtt tagged
+                words.add(regexMatcher.group(2));
+            } else {
+                // should never get here
+                words.add(regexMatcher.group());
+            }
+        }
+        return words;
+
+    }
+
+    /*
+     * Generate the XML for the image sentence
+     * 
+     * @param Image Sentence
+     * 
+     * @return String representation of the Image Sentence
+     */
     public String generateImageSentenceXML(ImageSentence iS) throws Exception {
-        
+
         StringWriter xml = new StringWriter();
         JAXBContext context = JAXBContext.newInstance(ImageSentence.class);
         Marshaller m = context.createMarshaller();

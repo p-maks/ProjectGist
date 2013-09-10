@@ -4,6 +4,7 @@
  */
 package com.yclip.gist.framework.gist;
 
+import com.yclip.gist.framework.de.DTTExtractor;
 import com.yclip.gist.framework.obj.ImageSentence;
 import com.yclip.gist.framework.obj.ImageTextSource;
 import com.yclip.gist.framework.obj.ImageWord;
@@ -21,7 +22,7 @@ import static org.junit.Assert.*;
  * @author Chaka
  */
 public class ImageFinderTest {
-    
+    public static final String TEST_INPUT = "\"Man Utd\" team is mobbed by fans as they leave the airport";
     public ImageFinderTest() {
     }
     
@@ -47,13 +48,16 @@ public class ImageFinderTest {
     @Test
     public void testConstructImageSentence() throws Exception {
         System.out.println("constructImageSentence");
-        SentenceTemplate sT = null;
+        SentenceTemplate sT = new SentenceTemplate(TEST_INPUT);
         ImageFinder instance = new ImageFinder();
-        ImageSentence expResult = null;
+        sT = new DTTExtractor().tagDTT(sT);
+        String expResult = "<ss>Man Utd</ss> <ss>team</ss> <dtt>is</dtt> <ss>mobbed</ss> <dtt>by</dtt> <ss>fans</ss> <dtt>as</dtt> <ss>they</ss> <ss>leave</ss> <dtt>the</dtt> <ss>airport</ss>";
+        assertEquals(expResult, sT.getTaggedSentence());
         ImageSentence result = instance.constructImageSentence(sT);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        for (ImageWord iW : result.getImageWords()) {
+            System.out.println(iW.toString());
+        }
+        
     }
 
     /**
@@ -65,8 +69,9 @@ public class ImageFinderTest {
         String word = "";
         ImageFinder instance = new ImageFinder();
         ImageWord expResult = null;
-        ImageWord result = instance.findImage(word);
-        assertNull(result);
+        ImageWord result;
+        
+        
         word = "team";
         HashSet<String> tempSet = new HashSet<String>();
         tempSet.add("team");

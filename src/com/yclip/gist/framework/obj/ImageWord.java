@@ -17,26 +17,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "ImageWord")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ImageWord {
+
     @XmlElement(name = "ImageSource")
     private String url;
     @XmlElement(name = "ImageTextSource")
     private ImageTextSource textSrc;
     private MetaInfo metaInfo;
     private ImageCorelation corelation;
-    
-    public ImageWord(){
+
+    public ImageWord() {
     }
-    
-    public ImageWord(String url){
+
+    public ImageWord(String url) {
         this.url = url;
     }
-    
-    public ImageWord(String url, ImageTextSource textSrc){
+
+    public ImageWord(String url, ImageTextSource textSrc) {
         this.url = url;
         this.textSrc = textSrc;
     }
-    
-    
 
     public String getUrl() {
         return url;
@@ -69,6 +68,4 @@ public class ImageWord {
     public void setCorelation(ImageCorelation corelation) {
         this.corelation = corelation;
     }
-    
-    
 }

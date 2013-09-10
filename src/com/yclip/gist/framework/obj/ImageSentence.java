@@ -22,11 +22,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ImageSentence {
 
-    
     // XmlElement sets the name of the entities
     @XmlElement(name = "ImageWord")
     private Collection<ImageWord> imageWords;
     private SentenceTemplate sentenceTemplate;
+
+    public ImageSentence() {
+        imageWords = new ArrayList<>();
+    }
 
     public SentenceTemplate getSentenceTemplate() {
         return sentenceTemplate;
@@ -34,11 +37,6 @@ public class ImageSentence {
 
     public void setSentenceTemplate(SentenceTemplate sentenceTemplate) {
         this.sentenceTemplate = sentenceTemplate;
-    }
-    
-    
-    public ImageSentence() {
-        imageWords = new ArrayList<>();
     }
 
     /**
@@ -55,6 +53,9 @@ public class ImageSentence {
         this.imageWords = imageWords;
     }
 
+    /**
+     * @param imageWord to add to the imageWords to set
+     */
     public void addImageWord(ImageWord iW) {
         imageWords.add(iW); //To change body of generated methods, choose Tools | Templates.
     }

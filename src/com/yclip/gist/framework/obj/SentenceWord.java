@@ -16,20 +16,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SentenceWord {
 
-    public SentenceWord() {
-    }
-
     private String word;
     private boolean dtt;
-
-    public boolean isDTT() {
-        return dtt;
+    
+    public SentenceWord() {
     }
-
-    public void setDTT(boolean isDTT) {
-        this.dtt = isDTT;
-    }
-
+    
     public SentenceWord(String word) {
         this.word = word;
         dtt = false;
@@ -38,6 +30,14 @@ public class SentenceWord {
     public SentenceWord(String word, boolean dtt) {
         this.word = word;
         this.dtt = dtt;
+    }
+    
+    public boolean isDTT() {
+        return dtt;
+    }
+
+    public void setDTT(boolean isDTT) {
+        this.dtt = isDTT;
     }
 
     public String getWord() {
