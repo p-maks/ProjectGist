@@ -65,7 +65,7 @@ public static final String TEST_INPUT = "\"Man Utd\" team is mobbed by fans as t
         } catch (Exception ex) {
         }
         System.out.println("Initial input:" + sT.getInput());
-        for (SentenceWord sentenceWord : sentenceWords) {
+        for (SentenceWord sentenceWord : sT.getSentenceWords()) {
             System.out.println("    "+ sentenceWord.toString());
         }
         
@@ -149,6 +149,24 @@ public static final String TEST_INPUT = "\"Man Utd\" team is mobbed by fans as t
         result = instance.getImageSentence(input);
         resultString = util.generateImageSentenceXML(result);
         assertEquals(expResult, resultString);
+        
+        ArrayList<String> imageWordURLs = new ArrayList<String>();
+        imageWordURLs.add("manutdlogo.jpeg");
+        imageWordURLs.add("team.jpeg");
+        imageWordURLs.add("mobbed.jpeg");
+        imageWordURLs.add("fans.jpeg");
+        imageWordURLs.add("they.jpeg");
+        imageWordURLs.add("leave.jpeg");
+        imageWordURLs.add("airport.jpeg");
+
+        int i = 0;
+        for (ImageWord iW : result.getImageWords()) {
+
+            System.out.println(imageWordURLs.get(i));
+            System.out.println(iW.getUrl());
+            assertEquals(imageWordURLs.get(i), iW.getUrl());
+            i++;
+        }
         
     }
 }

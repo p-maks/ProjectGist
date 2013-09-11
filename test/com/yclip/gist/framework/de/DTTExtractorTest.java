@@ -62,7 +62,16 @@ public class DTTExtractorTest {
         SentenceTemplate result = instance.tagDTT(sT);
         System.out.println(result.getInput());
         System.out.println(result.getTaggedSentence());
+        assertEquals(result.getTaggedSentence(), "<ss>Man Utd</ss> <ss>team</ss> <dtt>is</dtt> <ss>mobbed</ss> <dtt>by</dtt> <ss>fans</ss> <dtt>as</dtt> <ss>they</ss> <ss>leave</ss> <dtt>the</dtt> <ss>airport</ss>");
         
         
+        //these tests test whether the dtt value has been set correctly, 
+        //if the list gets removed these tests should be removed as well
+        assertFalse(result.getSentenceWords().get(0).toString() + " is true",result.getSentenceWords().get(0).isDTT());
+        assertFalse(result.getSentenceWords().get(1).toString() + " is true",result.getSentenceWords().get(1).isDTT());
+        assertTrue(result.getSentenceWords().get(2).toString() + " is false",result.getSentenceWords().get(2).isDTT());
+        assertFalse(result.getSentenceWords().get(3).toString() + " is true",result.getSentenceWords().get(3).isDTT());
+        assertTrue(result.getSentenceWords().get(4).toString() + " is false",result.getSentenceWords().get(4).isDTT());
+        assertFalse(result.getSentenceWords().get(5).toString() + " is true",result.getSentenceWords().get(5).isDTT());
     }
 }

@@ -34,9 +34,10 @@ public class DTTExtractor {
         // get DttRepoDAO
         DttRepoDAOImplStud dttRepoDao = (DttRepoDAOImplStud) DaoFactory.getInstance().getDAO(DaoFactory.DTT_REPO_DAO_CLASS);
 
-        List<String> sentenceWords = new Util().splitSentence(sT.getInput());
+        List<String> words = new Util().splitSentence(sT.getInput());
+        List<SentenceWord> sentenceWords = new ArrayList<SentenceWord>();
 
-        for (String word : sentenceWords) {
+        for (String word : words) {
             //Make sure no space is at the start or end of the sentence
             if (isFirst) {
                 isFirst = false;
@@ -44,15 +45,16 @@ public class DTTExtractor {
                 tempSentence = tempSentence + " ";
             }
             if (dttRepoDao.checkDtt(word)) {
-                dttRepoDao.checkDtt(word);
                 tempSentence = tempSentence + "<dtt>" + word + "</dtt>";
 
             } else {
                 tempSentence = tempSentence + "<ss>" + word + "</ss>";
             }
+            sentenceWords.add(new SentenceWord(word, dttRepoDao.checkDtt(word)));
 
         }
         sT.setTaggedSentence(tempSentence);
+        sT.setSentenceWords(sentenceWords);
 
         return sT;
     }

@@ -72,6 +72,35 @@ public class Util {
     }
 
     /*
+     * @param the sentence that needs to be split
+     * @return an array of sentence segments
+     */
+    public List<String> splitTaggedSentence2(String sentence) {
+        List<String> words = new ArrayList<>();
+        String temp;
+        int index = 0;
+        
+        while (index < sentence.length()) {
+            System.out.println(index);
+            System.out.println(sentence.substring(index));
+            if (sentence.substring(index).trim().startsWith("<dtt>")) {
+                temp = sentence.substring(index, sentence.substring(index).indexOf("</dtt>", index));
+                System.out.println(temp);
+                words.add(temp);
+                System.out.println(sentence.substring(index));
+                index = sentence.substring(index).indexOf("</dtt>", index)+9;
+            } else if (sentence.substring(index).trim().startsWith("<ss>")) {
+                temp = sentence.substring(index, sentence.substring(index).indexOf("</ss>", index));
+                System.out.println(temp);
+                words.add(temp);
+                index = sentence.substring(index).indexOf("</ss>", index)+6;
+            }
+        }
+        return words;
+
+    }
+
+    /*
      * Generate the XML for the image sentence
      * 
      * @param Image Sentence
