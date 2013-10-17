@@ -4,6 +4,7 @@
  */
 package com.yclip.gist.framework.util;
 
+import com.yclip.gist.framework.obj.Dtt;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -83,5 +84,16 @@ public class UtilTest {
         expResult.add("<ss>airport</ss>");
         ArrayList result = (ArrayList) instance.splitTaggedSentence2(sentence);
         assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testMarshaller() throws Exception {
+        System.out.println("Test marsheller");
+        
+        Util instance = new Util();
+        
+        Dtt dtt = new Dtt();
+        dtt.setWord("test");
+        System.out.println(instance.generateXML(dtt));
     }
 }

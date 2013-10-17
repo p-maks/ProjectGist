@@ -5,14 +5,19 @@
 package com.yclip.gist.framework.util;
 
 import com.yclip.gist.framework.obj.ImageSentence;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
+import javax.xml.bind.Unmarshaller;
 
 /**
  * Utilities for other classes to make use of
@@ -78,27 +83,28 @@ public class Util {
     public List<String> splitTaggedSentence2(String sentence) {
         List<String> words = new ArrayList<>();
         String temp;
+        String word = "";
         int index = 0;
-        
-        while (index < sentence.length()) {
-            System.out.println(index);
-            System.out.println(sentence.substring(index));
-            if (sentence.substring(index).trim().startsWith("<dtt>")) {
-                temp = sentence.substring(index, sentence.substring(index).indexOf("</dtt>", index));
-                System.out.println(temp);
-                words.add(temp);
-                System.out.println(sentence.substring(index));
-                index = sentence.substring(index).indexOf("</dtt>", index)+9;
-            } else if (sentence.substring(index).trim().startsWith("<ss>")) {
-                temp = sentence.substring(index, sentence.substring(index).indexOf("</ss>", index));
-                System.out.println(temp);
-                words.add(temp);
-                index = sentence.substring(index).indexOf("</ss>", index)+6;
+        int tempInt = 0;
+        temp = sentence;
+        while (index < temp.length()) {
+
+            if (temp.startsWith("<dtt>")) {
+                index = temp.indexOf("</dtt>") + 6;
+                word = temp.substring(0, index).trim();
+                words.add(word);
+            } else if (temp.startsWith("<ss>")) {
+                index = temp.indexOf("</ss>") + 5;
+                word = temp.substring(0, index).trim();
+                words.add(word);
             }
+            System.out.println("Word added " + word);
+            temp = temp.substring(index).trim();
         }
         return words;
 
     }
+
 
     /*
      * Generate the XML for the image sentence
@@ -116,5 +122,31 @@ public class Util {
 
         m.marshal(iS, xml);
         return xml.toString();
+    }
+
+    /*
+     * Generate the XML for the image sentence
+     * 
+     * @param Image Sentence
+     * 
+     * @return String representation of the Image Sentence
+     */
+    public String generateXML(Object obj) throws Exception {
+
+        StringWriter xml = new StringWriter();
+        JAXBContext context = JAXBContext.newInstance(obj.getClass());
+        Marshaller m = context.createMarshaller();
+//        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+        m.marshal(obj, xml);
+        return xml.toString();
+    }
+
+    public Object generateObj(String input) throws UnsupportedEncodingException, JAXBException {
+
+        InputStream is = new ByteArrayInputStream(input.getBytes("UTF-8"));
+        JAXBContext jc = JAXBContext.newInstance("com.acme.foo:com.yclip.gist.framework.obj");
+        Unmarshaller u = jc.createUnmarshaller();
+        return u.unmarshal(is);
     }
 }

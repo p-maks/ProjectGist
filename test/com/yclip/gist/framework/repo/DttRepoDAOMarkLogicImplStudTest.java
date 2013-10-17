@@ -45,12 +45,12 @@ public class DttRepoDAOMarkLogicImplStudTest {
         System.out.println("checkDtt");
         String word = "I";
         DttRepoDAOMarkLogicImplStud instance = new DttRepoDAOMarkLogicImplStud();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.checkDtt(word);
         assertEquals(expResult, result);
         word = "Neveractuallygoingtobeaword";
         result = instance.checkDtt(word);
-        expResult = true;
+        expResult = false;
         assertEquals(expResult, result);
     }
 
@@ -73,7 +73,7 @@ public class DttRepoDAOMarkLogicImplStudTest {
 "</DTTXML>";
         DttRepoDAOMarkLogicImplStud instance = new DttRepoDAOMarkLogicImplStud();
         boolean expResult = true;
-        boolean result = instance.injest(xml);
+        boolean result = instance.injest("dtt/dtt.xml",xml);
         assertEquals(expResult, result);
     }
 
@@ -98,11 +98,11 @@ public class DttRepoDAOMarkLogicImplStudTest {
     @Test
     public void testUpdate() {
         System.out.println("update");
-        String dtt = "";
+        String doc = "";
         String xml = "";
         DttRepoDAOMarkLogicImplStud instance = new DttRepoDAOMarkLogicImplStud();
         boolean expResult = false;
-        boolean result = instance.update(dtt, xml);
+        boolean result = instance.update(doc, xml);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

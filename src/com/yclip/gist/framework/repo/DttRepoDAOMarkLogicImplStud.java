@@ -58,10 +58,8 @@ public class DttRepoDAOMarkLogicImplStud {
         //no longer need the database connection
         release();
 
-        if (resultsHandle.get().contains(word)) {
-            return false;
-        }
-        return true;
+        
+        return resultsHandle.get().contains(word);
     }
 
 
@@ -72,7 +70,7 @@ public class DttRepoDAOMarkLogicImplStud {
      * 
      * @return true if injest succeeds
      */
-    public boolean injest(String xml) throws UnsupportedEncodingException {
+    public boolean injest(String doc, String xml) throws UnsupportedEncodingException {
         connect();
         // create a manager for XML documents
         XMLDocumentManager docMgr = client.newXMLDocumentManager();
@@ -82,9 +80,9 @@ public class DttRepoDAOMarkLogicImplStud {
         InputStreamHandle handle = new InputStreamHandle(stream);
         
         // write the document content
-        docMgr.write("/dtt/dtt.xml", handle);
+        docMgr.write(doc, handle);
         
-        System.out.println("Wrote /dtt/dtt.xml content");
+        System.out.println("Wrote "+doc+" content");
 
         release();
         return true;
@@ -93,17 +91,17 @@ public class DttRepoDAOMarkLogicImplStud {
     /*
      * delete a record in the database
      * 
-     * @param the xml to delete into the database
+     * @param the document to delete from the database
      * 
      * @return true if delete succeeds;
      */
-    public boolean delete(String xml) {
+    public boolean delete(String doc) {
         connect();
         // create a generic manager for documents
         GenericDocumentManager docMgr = client.newDocumentManager();
 
         // delete the documents
-        docMgr.delete(xml);
+        docMgr.delete(doc);
 
         release();
         return true;
@@ -112,17 +110,27 @@ public class DttRepoDAOMarkLogicImplStud {
     /*
      * Update a record in the database
      * 
-     * @param dtt, the dtt record to be updated
+     * @param doc, the document to be updated
      * @param xml, the updated record
      * 
      * @return true if update succeeds
      */
-    public boolean update(String dtt, String xml) {
+    public boolean update(String doc, String xml) throws UnsupportedEncodingException {
         connect();
-
+        // create a manager for XML documents
+        XMLDocumentManager docMgr = client.newXMLDocumentManager();
+        //Convert string to InputStream
+        InputStream stream = new ByteArrayInputStream(xml.getBytes("UTF-8"));
+        // create a handle on the content
+        InputStreamHandle handle = new InputStreamHandle(stream);
+        
+        // write the document content
+        docMgr.write(doc, handle);
+        
+        System.out.println("Wrote "+doc+" content");
 
         release();
-        return false;
+        return true;
     }
 
     /*

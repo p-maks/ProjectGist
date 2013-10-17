@@ -27,7 +27,7 @@ public interface DttRepoDAO extends BaseDAO {
      * 
      * @return true if injest succeeds
      */
-    public boolean injest(String xml);
+    public boolean injest(String xml, String Doc);
     
     /*
      * delete a record in the database
@@ -41,12 +41,12 @@ public interface DttRepoDAO extends BaseDAO {
     /*
      * Update a record in the database
      * 
-     * @param dtt, the dtt record to be updated
+     * @param doc, the document to be updated
      * @param xml, the updated record
      * 
      * @return true if update succeeds
      */
-    public boolean update(String dtt, String xml);
+    public boolean update(String doc, String xml);
  
     
     /*

@@ -40,7 +40,7 @@ public class DttRepoDAOImplStud implements DttRepoDAO {
     }
 
     @Override
-    public boolean injest(String xml) {
+    public boolean injest(String xml, String doc) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
