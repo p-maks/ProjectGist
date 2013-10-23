@@ -81,8 +81,9 @@ public class OIF {
         String url = "";
         String temp = searchHtml;
 
-        int i = temp.indexOf("Search Results");
+        int i = temp.indexOf("<h2 class=\"hd\">");
         temp = temp.substring(i);
+        
         i = temp.indexOf("<img");
         temp = temp.substring(i);
         i = temp.indexOf(">");
@@ -105,7 +106,7 @@ public class OIF {
         InputStream is = url.openStream();
         
         // TODO alter file location so it's relative to web instance, so it can be view on the web
-        File file = new File("./images/"+destinationFile + "." + type);
+        File file = new File("C:/images/"+destinationFile + "." + type);
         OutputStream os = new FileOutputStream(file);
         // if file doesnt exists, then create it
         if (!file.exists()) {

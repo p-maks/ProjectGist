@@ -115,6 +115,9 @@ public class IwRepoDAOMarkLogicImplStudTest {
         ImageWord result = instance.getGIS(word);
         System.out.println(result.toString());
         
+        result = instance.getGIS("dog");
+        System.out.println(result.toString());
+        
     }
 
     /**

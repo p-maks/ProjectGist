@@ -20,39 +20,7 @@ public interface DttRepoDAO extends BaseDAO {
      */
     public boolean checkDtt(String word);
     
-    /*
-     * Injest xml into database
-     * 
-     * @param the xml to parse into the database
-     * 
-     * @return true if injest succeeds
-     */
-    public boolean injest(String xml, String Doc);
     
-    /*
-     * delete a record in the database
-     * 
-     * @param the xml to delete into the database
-     * 
-     * @return true if delete succeeds;
-     */
-    public boolean delete(String xml);
-    
-    /*
-     * Update a record in the database
-     * 
-     * @param doc, the document to be updated
-     * @param xml, the updated record
-     * 
-     * @return true if update succeeds
-     */
-    public boolean update(String doc, String xml);
- 
-    
-    /*
-     * List all database
-     */
-    public String listAll();
     
     
     /*

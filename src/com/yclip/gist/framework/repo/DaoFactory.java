@@ -16,6 +16,8 @@ public class DaoFactory {
     private static DaoFactory daoFactory = null;
     public static final String DTT_REPO_DAO_CLASS = "com.yclip.gist.framework.repo.DttRepoDAOImplStud";
     public static final String IW_REPO_DAO_CLASS = "com.yclip.gist.framework.repo.IwRepoDAOImplStud";
+    public static final String WS_REPO_DAO_CLASS = "com.yclip.gist.framework.repo.WordSetDAOMarkLogicImplStud";
+    public static final String ONTO_REPO_DAO_CLASS = "com.yclip.gist.framework.repo.OntologyDAOMarkLogicImplStud";
 
     /**
      * Static block that creates a new DAO factory the first time a DaoFactory
