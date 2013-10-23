@@ -109,16 +109,6 @@ public interface IwRepoDAO extends BaseDAO{
     public String listAll();
     
     
-    /*
-     * Create connection to the database
-     */
-    public boolean connect();
-    
-    /*
-     * Release the database
-     */
-    public boolean release();
-    
     
     /*
      * Get the imageword from the repo

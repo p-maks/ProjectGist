@@ -42,4 +42,14 @@ public class ImageTextSource {
     public void setWordSet(Set wordSet) {
         this.wordSet = wordSet;
     }
+    
+    public String toString(){
+        String words = "";
+        for (Object word : wordSet) {
+            words = words + " " + word;
+            
+        }
+        
+        return words.trim();
+    }
 }

@@ -4,8 +4,10 @@
  */
 package com.vistence.framework.oif;
 
-import com.vistence.web.account.ImageWordRepository;
-import com.vistence.web.account.JdbcImageWordRepository;
+import com.yclip.gist.framework.obj.ImageTextSource;
+import com.yclip.gist.framework.obj.ImageWord;
+import com.yclip.gist.framework.repo.IwRepoDAOMarkLogicImplStud;
+import com.yclip.gist.framework.util.Util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,11 +16,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -29,8 +32,6 @@ public class OIF {
 
     static final String url = "https://www.google.com/search?&tbm=isch&q=";
     
-    @Autowired
-    private ImageWordRepository imageWordRepository;
 
     
 
@@ -52,21 +53,35 @@ public class OIF {
 
     }
 
-    public void getImageForWord(String input, ImageWordRepository imageWordRepository) throws IOException {
+    public void getImageForWord(String input) throws IOException, Exception {
+        
         String result = getUrlFromResults(searchForWord(input));
-        this.imageWordRepository=imageWordRepository;
+        //this.imageWordRepository=imageWordRepository;
         System.out.println(result);
         String filePath = saveImage(result, input, "jpg");
-        imageWordRepository.insert(input, filePath, "<img src=\""+filePath+"\">", input.toLowerCase());
+        //imageWordRepository.insert(input, filePath, "<img src=\""+filePath+"\">", input.toLowerCase());
         
-
+        
+        ImageTextSource source = new ImageTextSource();
+        //create the word set for the word.  
+        // TODO should probably obtain wordset from word net
+        // for now just use the input word
+        Set sourceSet = new HashSet();
+        sourceSet.add(input);
+        source.setWordSet(sourceSet);
+        
+        ImageWord iw = new ImageWord(filePath, source, "jpeg", filePath);
+        IwRepoDAOMarkLogicImplStud instance = new IwRepoDAOMarkLogicImplStud();
+        
+        String doc = "/oif/" + input +".xml";
+        instance.injest(doc, new Util().generateXML(iw));
     }
 
     private String getUrlFromResults(String searchHtml) {
         String url = "";
         String temp = searchHtml;
 
-        int i = temp.indexOf("<div id=\"ires\"");
+        int i = temp.indexOf("Search Results");
         temp = temp.substring(i);
         i = temp.indexOf("<img");
         temp = temp.substring(i);
@@ -88,8 +103,9 @@ public class OIF {
     public String saveImage(String imageUrl, String destinationFile, String type) throws IOException {
         URL url = new URL(imageUrl);
         InputStream is = url.openStream();
-
-        File file = new File("C:/images/"+destinationFile + "." + type);
+        
+        // TODO alter file location so it's relative to web instance, so it can be view on the web
+        File file = new File("./images/"+destinationFile + "." + type);
         OutputStream os = new FileOutputStream(file);
         // if file doesnt exists, then create it
         if (!file.exists()) {

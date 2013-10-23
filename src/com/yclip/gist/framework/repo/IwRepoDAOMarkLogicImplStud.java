@@ -17,8 +17,10 @@ import com.marklogic.client.io.DOMHandle;
 import com.marklogic.client.io.InputStreamHandle;
 import com.marklogic.client.io.JAXBHandle;
 import com.marklogic.client.io.QueryOptionsHandle;
+import com.marklogic.client.io.SearchHandle;
 import com.marklogic.client.io.StringHandle;
 import com.marklogic.client.query.KeyValueQueryDefinition;
+import com.marklogic.client.query.MatchDocumentSummary;
 import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.StringQueryDefinition;
 import com.yclip.gist.framework.exceptions.NoWordException;
@@ -128,25 +130,88 @@ System.out.println(resultsHandle.get());
         KeyValueQueryDefinition query = queryMgr.newKeyValueDefinition();
         query.put(queryMgr.newElementLocator(new QName("Word")), word);
 
-        // create a handle for the search results to be received as raw XML
-        StringHandle resultsHandle = new StringHandle();
+        // create a handle for the search results
+	SearchHandle resultsHandle = new SearchHandle();
 
         // run the search
         queryMgr.search(query, resultsHandle);
+        
+        MatchDocumentSummary[] docSummaries = resultsHandle.getMatchResults();
+        
+        //Just use the first Uri for now, this probably wants it's own method to
+        //decide on choice of image
+        String uri = docSummaries[0].getUri();
+        
+        XMLDocumentManager docMgr = client.newXMLDocumentManager();
+        
+        JAXBContext context;
+		try {
+			context = JAXBContext.newInstance(ImageWord.class);
+			// create a handle to receive the document content
+			JAXBHandle readHandle = new JAXBHandle(context);
 
+			// read the JAXB object from the document content
+			docMgr.read(uri, readHandle);
+
+			// access the document content
+			iw = (ImageWord) readHandle.get();
+
+		} catch (JAXBException e) {
+			Logger.getLogger(IwRepoDAOMarkLogicImplStud.class.getName()).log(Level.SEVERE, null, e);
+		}
+                
+                      
         //no longer need the database connection
         release();
-        
-        System.out.println(resultsHandle.get());
-        try {
-            iw =  (ImageWord) new Util().generateObj(resultsHandle.get());
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(IwRepoDAOMarkLogicImplStud.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (JAXBException ex) {
-            Logger.getLogger(IwRepoDAOMarkLogicImplStud.class.getName()).log(Level.SEVERE, null, ex);
-        }
         return iw;
     }
+    
+   /* public ImageWord getImageWord(String word) {
+        ImageWord iw = null;
+        
+        connect();
+        // create a manager for searching
+        QueryManager queryMgr = client.newQueryManager();
+
+        // create a search definition
+        KeyValueQueryDefinition query = queryMgr.newKeyValueDefinition();
+        query.put(queryMgr.newElementLocator(new QName("Word")), word);
+
+        // create a handle for the search results
+	SearchHandle resultsHandle = new SearchHandle();
+
+        // run the search
+        queryMgr.search(query, resultsHandle);
+        
+        MatchDocumentSummary[] docSummaries = resultsHandle.getMatchResults();
+        
+        //Just use the first Uri for now, this probably wants it's own method to
+        //decide on choice of image
+        String uri = docSummaries[0].getUri();
+        
+        XMLDocumentManager docMgr = client.newXMLDocumentManager();
+        
+        JAXBContext context;
+		try {
+			context = JAXBContext.newInstance(ImageWord.class);
+			// create a handle to receive the document content
+			JAXBHandle readHandle = new JAXBHandle(context);
+
+			// read the JAXB object from the document content
+			docMgr.read(uri, readHandle);
+
+			// access the document content
+			iw = (ImageWord) readHandle.get();
+
+		} catch (JAXBException e) {
+			Logger.getLogger(IwRepoDAOMarkLogicImplStud.class.getName()).log(Level.SEVERE, null, e);
+		}
+                
+                      
+        //no longer need the database connection
+        release();
+        return iw;
+    }*/
 
     @Override
     public ImageWord getLIS(String word) {
@@ -290,10 +355,10 @@ System.out.println(resultsHandle.get());
     /*
      * Create connection to the database
      */
-    public boolean connect() {
+    public DatabaseClient connect() {
         Authentication auth = Authentication.valueOf("DIGEST");
-        client = DatabaseClientFactory.newClient("localhost", 8012, "gis-rest-admin", "vistence", auth);
-        return true;
+        client = DatabaseClientFactory.newClient("161.76.253.119", 8017, "rest-admin", "yclip", auth);
+        return client;
     }
 
     /*
@@ -308,11 +373,12 @@ System.out.println(resultsHandle.get());
     public ImageWord getImageWord(String word) throws NoWordException {
         ImageWord iW;
 
-        if (checkUIS(word)) {
+        /*if (checkUIS(word)) {
             iW = getUIS(word);
         } else if (checkLIS(word)) {
             iW = getLIS(word);
-        } else if (checkGIS(word)) {
+        } else */
+            if (checkGIS(word)) {
             iW = getGIS(word);
         } else {
 
