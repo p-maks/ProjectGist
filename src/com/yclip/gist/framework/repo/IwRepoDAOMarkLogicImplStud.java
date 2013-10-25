@@ -225,7 +225,7 @@ System.out.println(resultsHandle.get());
      * 
      * @return true if injest succeeds
      */
-    public boolean injest(String doc, String xml) {
+    public boolean injest(String xml, String doc) {
         connect();
         // create a manager for XML documents
         XMLDocumentManager docMgr = client.newXMLDocumentManager();
@@ -355,7 +355,7 @@ System.out.println(resultsHandle.get());
     /*
      * Create connection to the database
      */
-    public DatabaseClient connect() {
+    private DatabaseClient connect() {
         Authentication auth = Authentication.valueOf("DIGEST");
         client = DatabaseClientFactory.newClient("161.76.253.119", 8017, "rest-admin", "yclip", auth);
         return client;
@@ -364,7 +364,7 @@ System.out.println(resultsHandle.get());
     /*
      * Release the database
      */
-    public boolean release() {
+    private boolean release() {
         client.release();
         return true;
     }
@@ -410,6 +410,162 @@ System.out.println(resultsHandle.get());
                         Logger.getLogger(IwRepoDAOMarkLogicImplStud.class.getName()).log(Level.SEVERE, null, e);
                         return null;
                 }
+    }
+
+    @Override
+    public boolean contains(String word) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean injestFile(String xml, String doc) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public MatchDocumentSummary[] search(String word) {
+        connect();
+        // create a manager for searching
+        QueryManager queryMgr = client.newQueryManager();
+
+        // create a search definition
+        KeyValueQueryDefinition query = queryMgr.newKeyValueDefinition();
+        query.put(queryMgr.newElementLocator(new QName("Word")), word);
+
+        // create a handle for the search results
+	SearchHandle resultsHandle = new SearchHandle();
+
+        // run the search
+        queryMgr.search(query, resultsHandle);
+        
+        release();
+        
+        return resultsHandle.getTotalResults()==0?null:resultsHandle.getMatchResults();
+    }
+
+    @Override
+    public Object getObjectFromURI(String uri) {
+        connect();
+        
+        XMLDocumentManager docMgr = client.newXMLDocumentManager();
+        ImageWord iw = null;
+        JAXBContext context;
+		try {
+			context = JAXBContext.newInstance(ImageWord.class);
+			// create a handle to receive the document content
+			JAXBHandle readHandle = new JAXBHandle(context);
+
+			// read the JAXB object from the document content
+			docMgr.read(uri, readHandle);
+
+			// access the document content
+			iw = (ImageWord) readHandle.get();
+
+		} catch (JAXBException e) {
+			Logger.getLogger(IwRepoDAOMarkLogicImplStud.class.getName()).log(Level.SEVERE, null, e);
+		}
+                
+                      
+        //no longer need the database connection
+        release();
+        
+        return iw;
+    }
+    
+    @Override
+    public Object getObjectFromOntology(String ontology) {
+        connect();
+        
+        // create a manager for searching
+        QueryManager queryMgr = client.newQueryManager();
+
+        // create a search definition
+        KeyValueQueryDefinition query = queryMgr.newKeyValueDefinition();
+        query.put(queryMgr.newElementLocator(new QName("ontology")), ontology);
+        // create a handle for the search results
+	SearchHandle resultsHandle = new SearchHandle();
+
+        // run the search
+        queryMgr.search(query, resultsHandle);
+        
+        MatchDocumentSummary[] docSummaries = resultsHandle.getMatchResults();
+        
+        //Just use the first Uri for now, this probably wants it's own method to
+        //decide on choice of image
+        String uri = docSummaries[0].getUri();
+        
+        
+        XMLDocumentManager docMgr = client.newXMLDocumentManager();
+        ImageWord iw = null;
+        JAXBContext context;
+		try {
+			context = JAXBContext.newInstance(ImageWord.class);
+			// create a handle to receive the document content
+			JAXBHandle readHandle = new JAXBHandle(context);
+
+			// read the JAXB object from the document content
+			docMgr.read(uri, readHandle);
+
+			// access the document content
+			iw = (ImageWord) readHandle.get();
+
+		} catch (JAXBException e) {
+			Logger.getLogger(IwRepoDAOMarkLogicImplStud.class.getName()).log(Level.SEVERE, null, e);
+		}
+                
+                      
+        //no longer need the database connection
+        release();
+        
+        return iw;
+    }
+
+    @Override
+    public Object getObjectFromWordSet(String word) {
+        connect();
+        
+        // create a manager for searching
+        QueryManager queryMgr = client.newQueryManager();
+
+        // create a search definition
+        KeyValueQueryDefinition query = queryMgr.newKeyValueDefinition();
+        query.put(queryMgr.newElementLocator(new QName("wordSet")), word);
+        // create a handle for the search results
+	SearchHandle resultsHandle = new SearchHandle();
+
+        // run the search
+        queryMgr.search(query, resultsHandle);
+        
+        MatchDocumentSummary[] docSummaries = resultsHandle.getMatchResults();
+        
+        //Just use the first Uri for now, this probably wants it's own method to
+        //decide on choice of image
+        String uri = docSummaries[0].getUri();
+        
+        
+        XMLDocumentManager docMgr = client.newXMLDocumentManager();
+        ImageWord iw = null;
+        JAXBContext context;
+		try {
+			context = JAXBContext.newInstance(ImageWord.class);
+			// create a handle to receive the document content
+			JAXBHandle readHandle = new JAXBHandle(context);
+
+			// read the JAXB object from the document content
+			docMgr.read(uri, readHandle);
+
+			// access the document content
+			iw = (ImageWord) readHandle.get();
+
+		} catch (JAXBException e) {
+			Logger.getLogger(IwRepoDAOMarkLogicImplStud.class.getName()).log(Level.SEVERE, null, e);
+		}
+                
+                      
+        //no longer need the database connection
+        release();
+        
+        return iw;
     }
     
     

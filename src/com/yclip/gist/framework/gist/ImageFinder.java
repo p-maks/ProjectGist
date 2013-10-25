@@ -4,12 +4,18 @@
  */
 package com.yclip.gist.framework.gist;
 
+import com.marklogic.client.query.MatchDocumentSummary;
+import com.vistence.framework.oif.OIF;
 import com.yclip.gist.framework.exceptions.NoWordException;
 import com.yclip.gist.framework.obj.ImageSentence;
 import com.yclip.gist.framework.obj.ImageWord;
+import com.yclip.gist.framework.obj.Ontology;
 import com.yclip.gist.framework.obj.SentenceTemplate;
 import com.yclip.gist.framework.obj.SentenceWord;
+import com.yclip.gist.framework.obj.WordSet;
+import com.yclip.gist.framework.repo.BaseDAO;
 import com.yclip.gist.framework.repo.DaoFactory;
+import com.yclip.gist.framework.repo.IwRepoDAO;
 import com.yclip.gist.framework.repo.IwRepoDAOImplStud;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -75,13 +81,42 @@ public class ImageFinder {
      * @throws NoWordException if no imageword was found in the repository
      */
     public ImageWord findImage(String word) throws Exception {
+        System.out.println("Finding image for: " + word);
+        ImageWord iw = new ImageWord();
+        BaseDAO wordSetDao = (BaseDAO) DaoFactory.getInstance().getDAO(DaoFactory.WS_REPO_DAO_CLASS);
+        MatchDocumentSummary[] wordSet = wordSetDao.search(word);
 
-        ImageWord iW = new ImageWord();
-        // get IwRepoDAO
-        IwRepoDAOImplStud iwRepoDao = (IwRepoDAOImplStud) DaoFactory.getInstance().getDAO(DaoFactory.IW_REPO_DAO_CLASS);
+        //need to get the meaning of a word and search angainst that
+        BaseDAO ontoDao = (BaseDAO) DaoFactory.getInstance().getDAO(DaoFactory.ONTO_REPO_DAO_CLASS);
+        MatchDocumentSummary[] ontoSet = ontoDao.search(word);
+        if (ontoSet == null && wordSet == null) {//Source new image if no image can be found
+            System.out.println("Sourcing image for: " + word);
+            iw = new OIF().getImageForWord(word);
+        } else {
+            try{
+            IwRepoDAO iwRepoDao = (IwRepoDAO) DaoFactory.getInstance().getDAO(DaoFactory.IW_REPO_DAO_CLASS);
+            if (wordSet != null) {//prioritise word set results
+                System.out.println(wordSet[0].getUri());
+/*
+                WordSet ws = (WordSet) wordSetDao.getObjectFromURI(wordSet[0].getUri());
+                System.out.println(ws.getImageWord());
+                * iw = (ImageWord) iwRepoDao.getObjectFromWordSet(ws.getImageWord());
+  */              
+                
+                iw = (ImageWord) iwRepoDao.getObjectFromWordSet(wordSet[0].getUri());
+            } else {//if wordSet = null, use ontoResult
+                /*Ontology on = (Ontology) ontoDao.getObjectFromURI(ontoSet[0].getUri());
+                System.out.println(on.getImageWord());
+                iw = (ImageWord) iwRepoDao.getObjectFromOntology(on.getImageWord());
+                */
+                iw = (ImageWord) iwRepoDao.getObjectFromOntology(ontoSet[0].getUri());
+            }
+            }catch(ArrayIndexOutOfBoundsException e){
+                System.out.println("Caught error: " + e.toString() + "Obtaining image from oif for: " + word);
+                iw = new OIF().getImageForWord(word);
+            }
+        }
 
-        iW = iwRepoDao.getImageWord(word);
-
-        return iW;
+        return iw;
     }
 }

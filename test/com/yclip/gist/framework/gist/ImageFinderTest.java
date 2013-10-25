@@ -85,18 +85,11 @@ public class ImageFinderTest {
     @Test
     public void testFindImage() throws Exception {
         System.out.println("findImage");
-        String word = "";
+        String word = "laser";
         ImageFinder instance = new ImageFinder();
-        ImageWord expResult = null;
-        ImageWord result;
-
-
-        word = "team";
-        HashSet<String> tempSet = new HashSet<String>();
-        tempSet.add("team");
-        expResult = new ImageWord("team.jpeg", new ImageTextSource(tempSet));
-        result = instance.findImage(word);
-        assertEquals(expResult.getUrl(), result.getUrl());
-
+        ImageWord result = instance.findImage(word);
+        System.out.println(result.toString());
+        result = instance.findImage("time");
+        System.out.println(result.toString());
     }
 }

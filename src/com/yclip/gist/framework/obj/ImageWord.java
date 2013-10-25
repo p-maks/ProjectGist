@@ -4,7 +4,6 @@
  */
 package com.yclip.gist.framework.obj;
 
-import java.util.HashSet;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,26 +17,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ImageWord {
 
-    @XmlElement(name = "ImageSource")
+    //Image word uri in mark logic
     private String url;
-    private String type;
+    private String repoType;
+    private String fileType;
+    private String imageSource;
     private String dataSource;
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDataSource() {
-        return dataSource;
-    }
-
-    public void setDataSource(String dataSource) {
-        this.dataSource = dataSource;
-    }
     @XmlElement(name = "ImageTextSource")
     private ImageTextSource textSrc;
     private MetaInfo metaInfo;
@@ -55,11 +40,13 @@ public class ImageWord {
         this.textSrc = textSrc;
     }
     
-    public ImageWord(String url, ImageTextSource textSrc, String type, String dataSource) {
+    public ImageWord(String url, ImageTextSource textSrc, String fileType, String dataSource, String imageSource, String repoType) {
         this.url = url;
         this.textSrc = textSrc;
-        this.type = type;
+        this.fileType = fileType;
         this.dataSource = dataSource;
+        this.imageSource = imageSource;
+        this.repoType = repoType;
         
     }
 
@@ -95,13 +82,53 @@ public class ImageWord {
         this.corelation = corelation;
     }
     
+
+    public String getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(String dataSource) {
+        this.dataSource = dataSource;
+    }
+    
+    public String getRepoType() {
+        return repoType;
+    }
+
+    public void setRepoType(String repoType) {
+        this.repoType = repoType;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+
+    public String getImageSource() {
+        return imageSource;
+    }
+
+    public void setImageSource(String imageSource) {
+        this.imageSource = imageSource;
+    }
+    
     public String toString(){
         String string = "";
         if(url!=null){
         string = string + "URL: "+ url + "\n";
         }
-        if(type!=null)
-                string = string + "Type: " + type + "\n";
+        if(fileType!=null){
+                string = string + "File type: " + fileType + "\n";
+        }
+        if(repoType!=null){
+                string = string + "Repo type: " + repoType + "\n";
+        }
+        if(imageSource!=null){
+                string = string + "Image Source: " + imageSource + "\n";
+        }
         if(dataSource!=null){
                 string = string + "Data Source: " + dataSource + "\n";
         }

@@ -84,5 +84,8 @@ public interface IwRepoDAO extends BaseDAO{
      */
     public ImageWord getImageWord(String word) throws NoWordException;
     
+    public Object getObjectFromOntology(String uri);
+    
+    public Object getObjectFromWordSet(String uri);
     
 }

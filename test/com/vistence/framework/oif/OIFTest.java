@@ -36,20 +36,7 @@ public class OIFTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of searchForWord method, of class OIF.
-     */
-    @Test
-    public void testSearchForWord() throws Exception {
-        System.out.println("searchForWord");
-        String input = "";
-        OIF instance = new OIF();
-        String expResult = "";
-        String result = instance.searchForWord(input);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+    
 
     /**
      * Test of getImageForWord method, of class OIF.
@@ -57,25 +44,9 @@ public class OIFTest {
     @Test
     public void testGetImageForWord() throws Exception {
         System.out.println("getImageForWord");
-        String input = "dog";
+        String input = "laser";
         OIF instance = new OIF();
         instance.getImageForWord(input);
     }
 
-    /**
-     * Test of saveImage method, of class OIF.
-     */
-    @Test
-    public void testSaveImage() throws Exception {
-        System.out.println("saveImage");
-        String imageUrl = "";
-        String destinationFile = "";
-        String type = "";
-        OIF instance = new OIF();
-        String expResult = "";
-        String result = instance.saveImage(imageUrl, destinationFile, type);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 }

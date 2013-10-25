@@ -52,6 +52,14 @@ public class DttRepoDAOMarkLogicImplStudTest {
         result = instance.checkDtt(word);
         expResult = false;
         assertEquals(expResult, result);
+        word = "face";
+        result = instance.checkDtt(word);
+        expResult = false;
+        assertEquals(expResult, result);
+        word = "time";
+        result = instance.checkDtt(word);
+        expResult = false;
+        assertEquals(expResult, result);
     }
 
     /**

@@ -23,33 +23,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ImageTextSource {
     // XmLElementWrapper generates a wrapper element around XML representation
 
-    @XmlElementWrapper(name = "WordSet")
-    // XmlElement sets the name of the entities
-    @XmlElement(name = "Word")
-    public Set wordSet = new HashSet<String>();
+    private String ontology;
+    private String wordSet;
+    
+    
 
     public ImageTextSource() {
     }
 
-    public ImageTextSource(Set wordSet) {
+    public ImageTextSource(String ontology, String wordSet) {
+        this.ontology = ontology;
         this.wordSet = wordSet;
     }
 
-    public Set getWordSet() {
-        return wordSet;
-    }
-
-    public void setWordSet(Set wordSet) {
-        this.wordSet = wordSet;
-    }
     
-    public String toString(){
-        String words = "";
-        for (Object word : wordSet) {
-            words = words + " " + word;
-            
-        }
-        
-        return words.trim();
+    
+    public String toString(){        
+        return "Ontology URI: " + ontology + "\n" + "Wordset URI: " + wordSet;
     }
 }

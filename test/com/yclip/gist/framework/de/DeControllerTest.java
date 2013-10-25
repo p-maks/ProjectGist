@@ -169,4 +169,15 @@ public static final String TEST_INPUT = "\"Man Utd\" team is mobbed by fans as t
         }
         
     }
+     
+     @Test
+     public void testAnotherGetImageSentence() throws Exception {
+         System.out.println("Test image sentence");
+         DeController instance = new DeController();
+         ImageSentence result = instance.getImageSentence("time laser exit boy time day eye face \"walking out\" walking out");
+         for (ImageWord iW : result.getImageWords()) {
+
+            System.out.println(iW.toString());
+     }
+     }
 }

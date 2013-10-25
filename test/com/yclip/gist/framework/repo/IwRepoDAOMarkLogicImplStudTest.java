@@ -223,23 +223,7 @@ public class IwRepoDAOMarkLogicImplStudTest {
         System.out.println(result);
     }
 
-    /**
-     * Test of connect method, of class IwRepoDAOMarkLogicImplStud.
-     */
-    @Test
-    public void testConnect() {
-        System.out.println("connect and release");
-        IwRepoDAOMarkLogicImplStud instance = new IwRepoDAOMarkLogicImplStud();
-        boolean expResult = true;
         
-        instance.connect();
-        boolean result = instance.release();
-        assertEquals(expResult, result);
-    }
-
-    
-
-    
 
     /**
      * Test of getImageWord method, of class IwRepoDAOMarkLogicImplStud.
