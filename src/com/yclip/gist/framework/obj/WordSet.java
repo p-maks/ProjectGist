@@ -42,4 +42,14 @@ public class WordSet {
         this.imageWord = imageWord;
     }
     
+    public String toString(){
+        String string = "Image word: " + imageWord +"\n"+
+                "Word Set: \n";
+        for (Object word : wordSet) {
+            
+            string= string + word.toString() +"\n";
+        }
+        return string;
+    }
+    
 }

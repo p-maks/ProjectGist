@@ -91,5 +91,15 @@ public class ImageFinderTest {
         System.out.println(result.toString());
         result = instance.findImage("time");
         System.out.println(result.toString());
+        result = instance.findImage("day");
+        System.out.println(result.toString());
+        result = instance.findImage("drug");
+        System.out.println(result.toString());
+        result = instance.findImage("man");
+        System.out.println(result.toString());
+        result = instance.findImage("instant");
+        System.out.println(result.toString());
+        result = instance.findImage("walking out");
+        System.out.println(result.toString());
     }
 }

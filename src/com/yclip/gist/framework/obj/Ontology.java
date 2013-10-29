@@ -42,4 +42,14 @@ public class Ontology {
         this.imageWord = imageWord;
     }
     
+    public String toString(){
+        String string = "Image word: " + imageWord +"\n"+
+                "Ontology Set: \n";
+        for (Object word : ontology) {
+            
+            string= string + word.toString() + "\n";
+        }
+        return string;
+    }
+    
 }

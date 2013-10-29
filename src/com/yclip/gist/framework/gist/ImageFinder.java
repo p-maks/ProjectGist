@@ -81,6 +81,9 @@ public class ImageFinder {
      * @throws NoWordException if no imageword was found in the repository
      */
     public ImageWord findImage(String word) throws Exception {
+        MatchDocumentSummary topResult = null;
+        int topScore = 0;
+        int tempScore;
         System.out.println("Finding image for: " + word);
         ImageWord iw = new ImageWord();
         BaseDAO wordSetDao = (BaseDAO) DaoFactory.getInstance().getDAO(DaoFactory.WS_REPO_DAO_CLASS);
@@ -93,25 +96,79 @@ public class ImageFinder {
             System.out.println("Sourcing image for: " + word);
             iw = new OIF().getImageForWord(word);
         } else {
-            try{
-            IwRepoDAO iwRepoDao = (IwRepoDAO) DaoFactory.getInstance().getDAO(DaoFactory.IW_REPO_DAO_CLASS);
-            if (wordSet != null) {//prioritise word set results
-                System.out.println(wordSet[0].getUri());
-/*
-                WordSet ws = (WordSet) wordSetDao.getObjectFromURI(wordSet[0].getUri());
-                System.out.println(ws.getImageWord());
-                * iw = (ImageWord) iwRepoDao.getObjectFromWordSet(ws.getImageWord());
-  */              
-                
-                iw = (ImageWord) iwRepoDao.getObjectFromWordSet(wordSet[0].getUri());
-            } else {//if wordSet = null, use ontoResult
-                /*Ontology on = (Ontology) ontoDao.getObjectFromURI(ontoSet[0].getUri());
-                System.out.println(on.getImageWord());
-                iw = (ImageWord) iwRepoDao.getObjectFromOntology(on.getImageWord());
-                */
-                iw = (ImageWord) iwRepoDao.getObjectFromOntology(ontoSet[0].getUri());
-            }
-            }catch(ArrayIndexOutOfBoundsException e){
+            try {
+                IwRepoDAO iwRepoDao = (IwRepoDAO) DaoFactory.getInstance().getDAO(DaoFactory.IW_REPO_DAO_CLASS);
+                /*if (wordSet != null) {//prioritise word set results
+                    System.out.println(wordSet[0].getUri());
+                    
+                     WordSet ws = (WordSet) wordSetDao.getObjectFromURI(wordSet[0].getUri());
+                     System.out.println(ws.getImageWord());
+                     * iw = (ImageWord) iwRepoDao.getObjectFromWordSet(ws.getImageWord());
+                     
+                    for (MatchDocumentSummary match : wordSet) {
+                        System.out.println("Word Set: " + match.getUri());
+                        System.out.println("fitenss: " + match.getFitness());
+                        System.out.println("score: " + match.getScore());
+                        System.out.println("confidence: " + match.getConfidence());
+                    }
+                    iw = (ImageWord) iwRepoDao.getObjectFromWordSet(wordSet[0].getUri());
+                }*/
+                /*if (ontoSet != null) {//if wordSet = null, use ontoResult
+                Ontology on = (Ontology) ontoDao.getObjectFromURI(ontoSet[0].getUri());
+                     System.out.println(on.getImageWord());
+                     iw = (ImageWord) iwRepoDao.getObjectFromOntology(on.getImageWord());
+                     
+                    iw = (ImageWord) iwRepoDao.getObjectFromOntology(ontoSet[0].getUri());
+                    for (MatchDocumentSummary match : ontoSet) {
+                        System.out.println("Onto Set: " + match.getUri());
+                        System.out.println("fitenss: " + match.getFitness());
+                        System.out.println("score: " + match.getScore());
+                        System.out.println("confidence: " + match.getConfidence());
+                    }
+                }*/
+                if (ontoSet != null && wordSet != null) {
+                    for (MatchDocumentSummary wordMatch : wordSet) {
+                        for (MatchDocumentSummary ontoMatch : ontoSet) {
+                            if (wordMatch.getUri().equals(ontoMatch.getUri())) {
+                                tempScore = wordMatch.getScore() + ontoMatch.getScore();
+                                if (tempScore > topScore) {
+                                    topResult = wordMatch;
+                                }
+                            }
+                            tempScore = ontoMatch.getScore();
+                            if (tempScore > topScore) {
+                                topResult = ontoMatch;
+                            }
+                        }
+
+                        tempScore = wordMatch.getScore();
+                        if (tempScore > topScore) {
+                            topResult = wordMatch;
+                        }
+
+                    }
+                    iw = (ImageWord) iwRepoDao.getObjectFromWordSet(topResult.getUri());
+                } else if (wordSet != null) {
+                    for (MatchDocumentSummary wordMatch : wordSet) {
+                        tempScore = wordMatch.getScore();
+                        if (tempScore > topScore) {
+                            topResult = wordMatch;
+                        }
+                    }
+                    iw = (ImageWord) iwRepoDao.getObjectFromWordSet(topResult.getUri());
+                    
+                } else if (ontoSet != null) {
+                    for (MatchDocumentSummary ontoMatch : ontoSet) {
+                        tempScore = ontoMatch.getScore();
+                        if (tempScore > topScore) {
+                            topResult = ontoMatch;
+                        }
+                    }
+                    iw = (ImageWord) iwRepoDao.getObjectFromOntology(topResult.getUri());
+                }
+
+
+            } catch (ArrayIndexOutOfBoundsException e) {
                 System.out.println("Caught error: " + e.toString() + "Obtaining image from oif for: " + word);
                 iw = new OIF().getImageForWord(word);
             }

@@ -4,6 +4,7 @@
  */
 package com.yclip.gist.framework.repo;
 
+import com.marklogic.client.query.MatchDocumentSummary;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -76,6 +77,16 @@ public class DttRepoDAOImplStud implements DttRepoDAO {
 
     @Override
     public boolean injestFile(String xml, String doc) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public MatchDocumentSummary[] search(String word) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object getObjectFromURI(String uri) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
