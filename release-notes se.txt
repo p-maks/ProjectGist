@@ -1,0 +1,40 @@
+Steps. 
+
+1. load all the lib, and ensure config, dict folders are placed in the relative pro home jecfolder (parallel to src folder)
+2. Implement ExtractionSource source instance - iinput sentence must be passed via it
+3. get an instance of the SemanticStack 
+4. start the SemanticStack 
+5. call the procesInput by passingt the extraction source
+(test code below should run fine)
+
+
+
+
+
+
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package test;
+import com.vistence.semantic.framework.core.SemanticStack;
+import com.vistence.semantic.framework.obj.ISemanticDoc;
+/**
+ *
+ * @author Uthay_Thana
+ */
+public class SEngineTest {
+    
+    //get stem of the word
+    //get wordset for all the words (two set of synsets)
+    //get tagged sentence - grammer/pos structure, check groups and phrases    
+    //net tagging
+        
+    public static void main(String args[]){        
+        SemanticStack stack=SemanticStack.getInstance();
+        stack.start(0);
+        ISemanticDoc sDoc=stack.processInput(new ExtractionSource());        
+        //System.out.println(sDoc.getWordStemMap()); 
+    }    
+}

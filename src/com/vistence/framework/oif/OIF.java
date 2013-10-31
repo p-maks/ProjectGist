@@ -4,7 +4,10 @@
  */
 package com.vistence.framework.oif;
 
+import com.vistence.semantic.framework.core.SemanticStack;
+import com.vistence.semantic.framework.obj.ISemanticDoc;
 import com.yclip.gist.framework.constants.constants;
+import com.yclip.gist.framework.obj.ExtractBridge;
 import com.yclip.gist.framework.obj.ImageTextSource;
 import com.yclip.gist.framework.obj.ImageWord;
 import com.yclip.gist.framework.obj.Ontology;
@@ -73,11 +76,22 @@ public class OIF {
         BaseDAO wordSetDao = (BaseDAO) DaoFactory.getInstance().getDAO(DaoFactory.WS_REPO_DAO_CLASS);
         //if (!wordSetDao.contains(input)) {
             WordSet source = new WordSet();
+            Set sourceSet = new HashSet();
+            try{
+            //Uthay's code to get word set
+            SemanticStack stack=SemanticStack.getInstance();
+            stack.start(0);
+            ISemanticDoc sDoc=stack.processInput(new ExtractBridge(input));
+           
+            System.out.println(sDoc.getWordSetMap().get("input"));
+            sourceSet= new HashSet(sDoc.getWordSetMap().get("input"));
             //create the word set for the word.  
             // TODO should probably obtain wordset from word net
             // for now just use the input word
-            Set sourceSet = new HashSet();
+            }catch(Exception e){
+            //If an exception is thrown whilst getting the wordset, just use the input   
             sourceSet.add(input);
+            }
             source.setWordSet(sourceSet);
             source.setImageWord(doc);
             wordSetDao.injest(new Util().generateXML(source), doc);
